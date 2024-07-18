@@ -1,0 +1,19 @@
+name: Version Increment
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
+      - run: git config --global user.name 'code.climbers'
+      - run: git config --global user.email 'dev@codeclimbers.io'
+      - run: npm version patch -m "[RELEASE] %s"
+      - run: git push
