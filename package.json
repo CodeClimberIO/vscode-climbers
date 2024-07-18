@@ -1,11 +1,11 @@
 {
-  "name": "vscode-wakatime",
-  "displayName": "WakaTime",
+  "name": "vscode-codeclimbers",
+  "displayName": "CodeClimbers",
   "description": "Metrics, insights, and time tracking automatically generated from your programming activity.",
   "version": "24.6.0",
-  "publisher": "WakaTime",
+  "publisher": "CodeClimbers",
   "author": {
-    "name": "WakaTime"
+    "name": "CodeClimbers"
   },
   "categories": [
     "Visualization",
@@ -30,15 +30,17 @@
     "tracker",
     "tracking",
     "worktime",
-    "wakatime"
+    "wakatime",
+    "code climbers",
+    "codeclimbers"
   ],
-  "homepage": "https://wakatime.com/",
+  "homepage": "https://codeclimbers.io/",
   "bugs": {
-    "url": "https://github.com/wakatime/vscode-wakatime/issues",
-    "email": "support@wakatime.com"
+    "url": "https://github.com/CodeClimberIO/vscode-climbers/issues",
+    "email": "support@codeclimbers.io"
   },
   "license": "BSD-3-Clause",
-  "icon": "images/wakatime-logo.png",
+  "icon": "images/codeclimbers-logo.png",
   "galleryBanner": {
     "color": "#AEC3D8",
     "theme": "light"
@@ -51,7 +53,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/wakatime/vscode-wakatime.git"
+    "url": "https://github.com/CodeClimberIO/vscode-climbers.git"
   },
   "engines": {
     "vscode": "^1.59.0",
@@ -71,46 +73,46 @@
   "contributes": {
     "commands": [
       {
-        "command": "wakatime.apikey",
-        "title": "WakaTime: Api Key"
+        "command": "codeclimbers.apikey",
+        "title": "Code Climbers: Api Key"
       },
       {
-        "command": "wakatime.proxy",
-        "title": "WakaTime: Proxy"
+        "command": "codeclimbers.proxy",
+        "title": "Code Climbers: Proxy"
       },
       {
-        "command": "wakatime.debug",
-        "title": "WakaTime: Debug"
+        "command": "codeclimbers.debug",
+        "title": "Code Climbers: Debug"
       },
       {
-        "command": "wakatime.disable",
-        "title": "WakaTime: Disable/Enable Extension"
+        "command": "codeclimbers.disable",
+        "title": "Code Climbers: Disable/Enable Extension"
       },
       {
-        "command": "wakatime.status_bar_enabled",
-        "title": "WakaTime: Status Bar Enabled"
+        "command": "codeclimbers.status_bar_enabled",
+        "title": "Code Climbers: Status Bar Enabled"
       },
       {
-        "command": "wakatime.status_bar_coding_activity",
-        "title": "WakaTime: Status Bar Coding Activity"
+        "command": "codeclimbers.status_bar_coding_activity",
+        "title": "Code Climbers: Status Bar Coding Activity"
       },
       {
-        "command": "wakatime.dashboard",
-        "title": "WakaTime: Open Dashboard"
+        "command": "codeclimbers.dashboard",
+        "title": "Code Climbers: Open Dashboard"
       },
       {
-        "command": "wakatime.config_file",
-        "title": "WakaTime: Open Config File..."
+        "command": "codeclimbers.config_file",
+        "title": "Code Climbers: Open Config File..."
       },
       {
-        "command": "wakatime.log_file",
-        "title": "WakaTime: Open Log File..."
+        "command": "codeclimbers.log_file",
+        "title": "Code Climbers: Open Log File..."
       }
     ],
     "configuration": {
-      "title": "WakaTime",
+      "title": "Code Climbers",
       "properties": {
-        "wakatime.apiKey": {
+        "codeclimbers.apiKey": {
           "type": "string",
           "description": "Defaults to value from ~/.wakatime.cfg, unless running in browser.",
           "scope": "application"

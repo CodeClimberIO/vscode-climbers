@@ -81,7 +81,7 @@ export class WakaTime {
 
         this.dependencies = new Dependencies(this.options, this.logger, this.resourcesLocation);
 
-        let extension = vscode.extensions.getExtension('WakaTime.vscode-wakatime');
+        let extension = vscode.extensions.getExtension('CodeClimbers.vscode-climbers');
         this.extension = (extension != undefined && extension.packageJSON) || { version: '0.0.0' };
         this.agentName = this.appNames[vscode.env.appName] || 'vscode';
 
@@ -118,29 +118,29 @@ export class WakaTime {
   }
 
   public initializeDependencies(): void {
-    this.logger.debug(`Initializing WakaTime v${this.extension.version}`);
+    this.logger.debug(`Initializing Code Climbers v${this.extension.version}`);
 
     this.statusBar = vscode.window.createStatusBarItem(
-      'com.wakatime.statusbar',
+      'com.codeclimbers.statusbar',
       vscode.StatusBarAlignment.Left,
       3,
     );
-    this.statusBar.name = 'WakaTime';
+    this.statusBar.name = 'Code Climbers';
     this.statusBar.command = COMMAND_DASHBOARD;
 
     this.statusBarTeamYou = vscode.window.createStatusBarItem(
-      'com.wakatime.teamyou',
+      'com.codeclimbers.teamyou',
       vscode.StatusBarAlignment.Left,
       2,
     );
-    this.statusBarTeamYou.name = 'WakaTime Top dev';
+    this.statusBarTeamYou.name = 'Code Climbers Top dev';
 
     this.statusBarTeamOther = vscode.window.createStatusBarItem(
-      'com.wakatime.teamother',
+      'com.codeclimbers.teamother',
       vscode.StatusBarAlignment.Left,
       1,
     );
-    this.statusBarTeamOther.name = 'WakaTime Team Total';
+    this.statusBarTeamOther.name = 'Code Climbers Team Total';
 
     this.options.getSetting('settings', 'status_bar_team', false, (statusBarTeam: Setting) => {
       this.showStatusBarTeam = statusBarTeam.value !== 'false';
@@ -151,7 +151,7 @@ export class WakaTime {
         (statusBarEnabled: Setting) => {
           this.showStatusBar = statusBarEnabled.value !== 'false';
           this.setStatusBarVisibility(this.showStatusBar);
-          this.updateStatusBarText('WakaTime Initializing...');
+          this.updateStatusBarText('Code Climbers Initializing...');
 
           this.checkApiKey();
 
@@ -165,9 +165,9 @@ export class WakaTime {
               this.showCodingActivity = showCodingActivity.value !== 'false';
 
               this.dependencies.checkAndInstallCli(() => {
-                this.logger.debug('WakaTime initialized');
+                this.logger.debug('Code Climbers initialized');
                 this.updateStatusBarText();
-                this.updateStatusBarTooltip('WakaTime: Initialized');
+                this.updateStatusBarTooltip('Code Climbers: Initialized');
                 this.getCodingActivity();
               });
             },
@@ -229,8 +229,8 @@ export class WakaTime {
     this.options.getApiKey((defaultVal: string | null) => {
       if (Utils.apiKeyInvalid(defaultVal ?? undefined)) defaultVal = '';
       let promptOptions = {
-        prompt: 'WakaTime Api Key',
-        placeHolder: 'Enter your api key from https://wakatime.com/api-key',
+        prompt: 'Code Climbers Api Key',
+        placeHolder: 'Enter your api key from http://codeclimbers.local/api-key',
         value: defaultVal!,
         ignoreFocusOut: true,
         password: hidden,
@@ -240,9 +240,19 @@ export class WakaTime {
         if (val != undefined) {
           let invalid = Utils.apiKeyInvalid(val);
           if (!invalid) {
-            this.options.setSetting('settings', 'api_key', val, false);
+            const settings: Setting[] = [
+              {
+                key: 'api_key',
+                value: val,
+              },
+              {
+                key: 'api_url',
+                value: 'http://codeclimbers.local/api/v1',
+              },
+            ]
+            this.options.setSettings('settings', settings, false);
           } else vscode.window.setStatusBarMessage(invalid);
-        } else vscode.window.setStatusBarMessage('WakaTime api key not provided');
+        } else vscode.window.setStatusBarMessage('Code Climbers api key not provided');
       });
     });
   }
@@ -252,7 +262,7 @@ export class WakaTime {
       let defaultVal = proxy.value;
       if (!defaultVal) defaultVal = '';
       let promptOptions = {
-        prompt: 'WakaTime Proxy',
+        prompt: 'Code Climbers Proxy',
         placeHolder: `Proxy format is https://user:pass@host:port (current value \"${defaultVal}\")`,
         value: defaultVal,
         ignoreFocusOut: true,
@@ -364,7 +374,7 @@ export class WakaTime {
 
   public openDashboardWebsite(): void {
     this.options.getSetting('settings', 'api_url', false, (apiUrl: Setting) => {
-      let url = 'https://wakatime.com/';
+      let url = 'http://codeclimbers.local/';
       if (apiUrl.value?.trim()) {
         try {
           const parsedUrl = new URL(apiUrl.value);
@@ -550,7 +560,7 @@ export class WakaTime {
     args.push('--entity', Utils.quote(file));
 
     let user_agent =
-      this.agentName + '/' + vscode.version + ' vscode-wakatime/' + this.extension.version;
+      this.agentName + '/' + vscode.version + ' vscode-climbers/' + this.extension.version;
     args.push('--plugin', Utils.quote(user_agent));
 
     args.push('--lineno', String(selection.line + 1));
@@ -608,7 +618,7 @@ export class WakaTime {
         if (this.showStatusBar) {
           if (!this.showCodingActivity) this.updateStatusBarText();
           this.updateStatusBarTooltip(
-            'WakaTime: working offline... coding activity will sync next time we are online',
+            'Code Climbers: working offline... coding activity will sync next time we are online',
           );
         }
         this.logger.warn(
@@ -617,15 +627,15 @@ export class WakaTime {
       } else if (code == 103) {
         let error_msg = `Config parsing error (103); Check your ${this.options.getLogFile()} file for more details`;
         if (this.showStatusBar) {
-          this.updateStatusBarText('WakaTime Error');
-          this.updateStatusBarTooltip(`WakaTime: ${error_msg}`);
+          this.updateStatusBarText('Code Climbers Error');
+          this.updateStatusBarTooltip(`Code Climbers: ${error_msg}`);
         }
         this.logger.error(error_msg);
       } else if (code == 104) {
         let error_msg = 'Invalid Api Key (104); Make sure your Api Key is correct!';
         if (this.showStatusBar) {
-          this.updateStatusBarText('WakaTime Error');
-          this.updateStatusBarTooltip(`WakaTime: ${error_msg}`);
+          this.updateStatusBarText('Code Climbers Error');
+          this.updateStatusBarTooltip(`Code Climbers: ${error_msg}`);
         }
         this.logger.error(error_msg);
         let now: number = Date.now();
@@ -637,8 +647,8 @@ export class WakaTime {
       } else {
         let error_msg = `Unknown Error (${code}); Check your ${this.options.getLogFile()} file for more details`;
         if (this.showStatusBar) {
-          this.updateStatusBarText('WakaTime Error');
-          this.updateStatusBarTooltip(`WakaTime: ${error_msg}`);
+          this.updateStatusBarText('Code Climbers Error');
+          this.updateStatusBarTooltip(`Code Climbers: ${error_msg}`);
         }
         this.logger.error(error_msg);
       }
@@ -663,7 +673,7 @@ export class WakaTime {
     if (!this.dependencies.isCliInstalled()) return;
 
     let user_agent =
-      this.agentName + '/' + vscode.version + ' vscode-wakatime/' + this.extension.version;
+      this.agentName + '/' + vscode.version + ' vscode-climbers/' + this.extension.version;
     let args = ['--today', '--output', 'json', '--plugin', Utils.quote(user_agent)];
 
     if (this.isMetricsEnabled) args.push('--metrics');
@@ -720,7 +730,7 @@ export class WakaTime {
                 if (this.showCodingActivity) {
                   this.updateStatusBarText(jsonData.text.trim());
                   this.updateStatusBarTooltip(
-                    'WakaTime: Today’s coding time. Click to visit dashboard.',
+                    'Code Climbers: Today’s coding time. Click to visit dashboard.',
                   );
                 } else {
                   this.updateStatusBarText();
@@ -729,14 +739,14 @@ export class WakaTime {
               } else {
                 this.updateStatusBarText();
                 this.updateStatusBarTooltip(
-                  'WakaTime: Calculating time spent today in background...',
+                  'Code Climbers: Calculating time spent today in background...',
                 );
               }
               this.updateTeamStatusBar();
             } else {
               this.updateStatusBarText();
               this.updateStatusBarTooltip(
-                'WakaTime: Calculating time spent today in background...',
+                'Code Climbers: Calculating time spent today in background...',
               );
             }
           }
@@ -779,7 +789,7 @@ export class WakaTime {
     }
 
     let user_agent =
-      this.agentName + '/' + vscode.version + ' vscode-wakatime/' + this.extension.version;
+      this.agentName + '/' + vscode.version + ' vscode-climbers/' + this.extension.version;
     let args = ['--output', 'json', '--plugin', Utils.quote(user_agent)];
 
     args.push('--file-experts', Utils.quote(file));

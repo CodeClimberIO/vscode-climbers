@@ -11,7 +11,7 @@ export class Desktop {
   }
 
   public static getHomeDirectory(): string {
-    let home = process.env.WAKATIME_HOME;
+    let home = process.env.CODE_CLIMBERS_HOME;
     if (home && home.trim() && fs.existsSync(home.trim()))
       return home.trim();
     if (this.isPortable())
@@ -23,8 +23,8 @@ export class Desktop {
     const options = {
       windowsHide: true,
     };
-    if (!this.isWindows() && !process.env.WAKATIME_HOME && !process.env.HOME) {
-      options['env'] = { ...process.env, WAKATIME_HOME: this.getHomeDirectory() };
+    if (!this.isWindows() && !process.env.CODE_CLIMBERS_HOME && !process.env.HOME) {
+      options['env'] = { ...process.env, CODE_CLIMBERS_HOME: this.getHomeDirectory() };
     }
     return options;
   }

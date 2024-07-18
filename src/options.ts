@@ -288,7 +288,7 @@ export class Options {
         this.logger.warn(`Unable to get api key: ${err}`);
         if (`${err}`.includes('spawn EPERM')) {
           vscode.window.showErrorMessage(
-            'Microsoft Defender is blocking WakaTime. Please allow WakaTime to run so it can upload code stats to your dashboard.',
+            'Microsoft Defender is blocking Code Climbers. Please allow Code Climbers to run so it can upload code stats to your dashboard.',
           );
         }
         callback(null);
@@ -296,14 +296,14 @@ export class Options {
   }
 
   private getApiKeyFromEditor(): string {
-    return vscode.workspace.getConfiguration().get('wakatime.apiKey') || '';
+    return vscode.workspace.getConfiguration().get('codeclimbers.apiKey') || '';
   }
 
   // Support for gitpod.io https://github.com/wakatime/vscode-wakatime/pull/220
   public getApiKeyFromEnv(): string {
     if (this.cache.api_key_from_env !== undefined) return this.cache.api_key_from_env;
 
-    this.cache.api_key_from_env = process.env.WAKATIME_API_KEY || '';
+    this.cache.api_key_from_env = process.env.CODE_CLIMBERS_API_KEY || '';
 
     return this.cache.api_key_from_env;
   }
@@ -311,7 +311,7 @@ export class Options {
   public getApiUrlFromEnv(): string {
     if (this.cache.api_url_from_env !== undefined) return this.cache.api_url_from_env;
 
-    this.cache.api_url_from_env = process.env.WAKATIME_API_URL || '';
+    this.cache.api_url_from_env = process.env.CODE_CLIMBERS_API_URL || '';
 
     return this.cache.api_url_from_env;
   }
