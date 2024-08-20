@@ -230,7 +230,7 @@ export class WakaTime {
       if (Utils.apiKeyInvalid(defaultVal ?? undefined)) defaultVal = '';
       let promptOptions = {
         prompt: 'Code Climbers Api Key',
-        placeHolder: 'Enter your api key from http://codeclimbers.local/api-key',
+        placeHolder: 'Enter your api key from http://localhost:14400/api-key',
         value: defaultVal!,
         ignoreFocusOut: true,
         password: hidden,
@@ -247,7 +247,7 @@ export class WakaTime {
               },
               {
                 key: 'api_url',
-                value: 'http://codeclimbers.local/api/v1',
+                value: 'http://localhost:14400/api/v1',
               },
             ]
             this.options.setSettings('settings', settings, false);
@@ -374,7 +374,7 @@ export class WakaTime {
 
   public openDashboardWebsite(): void {
     this.options.getSetting('settings', 'api_url', false, (apiUrl: Setting) => {
-      let url = 'http://codeclimbers.local/';
+      let url = 'http://localhost:14400/';
       if (apiUrl.value?.trim()) {
         try {
           const parsedUrl = new URL(apiUrl.value);
