@@ -174,7 +174,7 @@ export class WakaTime {
     if (Utils.apiKeyInvalid(defaultVal)) defaultVal = '';
     let promptOptions = {
       prompt: 'Code Climbers Api Key',
-      placeHolder: 'Enter your api key from http://codeclimbers.local/api-key',
+      placeHolder: 'Enter your api key from http://localhost:14400/api-key',
       value: defaultVal,
       ignoreFocusOut: true,
       password: hidden,
@@ -280,7 +280,7 @@ export class WakaTime {
   }
 
   public openDashboardWebsite(): void {
-    let url = 'http://codeclimbers.local/';
+    let url = 'http://localhost:14400/';
     vscode.env.openExternal(vscode.Uri.parse(url));
   }
 
@@ -473,7 +473,7 @@ export class WakaTime {
     this.logger.debug(`Sending heartbeat: ${JSON.stringify(payload)}`);
 
     const apiKey = this.config.get('codeclimbers.apiKey');
-    const url = `http://codeclimbers.local/api/v1/users/current/heartbeats?api_key=${apiKey}`;
+    const url = `http://localhost:14400/api/v1/users/current/heartbeats?api_key=${apiKey}`;
 
     try {
       const response = await fetch(url, {
@@ -539,7 +539,7 @@ export class WakaTime {
   private async _getCodingActivity() {
     this.logger.debug('Fetching coding activity for Today from api.');
     const apiKey = this.config.get('codeclimbers.apiKey');
-    const url = `http://codeclimbers.local/api/v1/users/current/statusbar/today?api_key=${apiKey}`;
+    const url = `http://localhost:14400/api/v1/users/current/statusbar/today?api_key=${apiKey}`;
     try {
       const response = await fetch(url, {
         method: 'GET',
@@ -621,7 +621,7 @@ export class WakaTime {
 
     this.logger.debug('Fetching devs for currently focused file from api.');
     const apiKey = this.config.get('codeclimbers.apiKey');
-    const url = `http://codeclimbers.local/api/v1/users/current/file_experts?api_key=${apiKey}`;
+    const url = `http://localhost:14400/api/v1/users/current/file_experts?api_key=${apiKey}`;
 
     const payload = {
       entity: file,
